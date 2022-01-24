@@ -55,14 +55,14 @@ class YouTubePlayer(QWidget):
 
     def updateVideo(self):
         video_Id = self.input.text()
-        self.webview.setUrl(QUrl(f'https://www.youtube.com/embed/{self.video_id}?rel=0'))
+        self.webview.setUrl(QUrl(f'https://www.youtube.com/embed/{video_Id}?rel=0'))
 
     def removePlayer(self):
         # widget = YouTube Player window
         widget = self.sender().parent()
         widget.setParent(None)
         widget.deleteLater()
-        # self.organizeLayout()
+        self.organizeLayout()
 
     def organizeLayout(self):
         playerCount = self.parent.videoGrid.count()
@@ -81,7 +81,7 @@ class YouTubeWindow(QWidget):
         super().__init__()
         self.setWindowTitle('YouTube Video Player')
         self.setWindowIcon(QIcon('yt.png'))
-        self.setMinimumSize(1800, 600)
+        self.setMinimumSize(1200, 600)
 
         self.layout = QVBoxLayout()
         self.setLayout(self.layout)
