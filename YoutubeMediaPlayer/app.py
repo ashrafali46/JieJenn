@@ -14,6 +14,9 @@ class YouTubePlayer(QWidget):
         self.parent = parent
         self.video_id = video_id
 
+        defaultSettings = QWebEngineSettings.globalSettings()
+        defaultSettings.setFontSize(QWebEngineSettings.MinimumFontSize, 28)
+
         self.layout = QVBoxLayout()
         self.setLayout(self.layout)
 
@@ -56,7 +59,7 @@ class YouTubePlayer(QWidget):
 
     def removePlayer(self):
         # widget = YouTube Player window
-        widget = self.sender().parent
+        widget = self.sender().parent()
         widget.setParent(None)
         widget.deleteLater()
         # self.organizeLayout()
@@ -83,7 +86,7 @@ class YouTubeWindow(QWidget):
         self.layout = QVBoxLayout()
         self.setLayout(self.layout)
 
-        buttonAddPlayer = QPushButton('&Add Player')
+        buttonAddPlayer = QPushButton('&Add Player', clicked=self.addPlayer)
         self.layout.addWidget(buttonAddPlayer)
 
         self.videoGrid = QGridLayout()
@@ -93,6 +96,32 @@ class YouTubeWindow(QWidget):
         self.videoGrid.addWidget(self.player, 0, 0)
 
         self.layout.addWidget(QLabel(__version__), alignment=Qt.AlignBottom | Qt.AlignRight)
+
+        self.setStyleSheet("""
+            QPushButton {
+                font-size: 28px;
+                height: 40px;
+                width: 40px;
+                background-color: #E41937;
+                color: white;
+            }
+            * {
+                background-color: #83c2ff;
+                font-size: 30px;
+            }
+            
+            QLineEdit {
+                background-color: white;
+            }
+            
+        """)
+
+    def addPlayer(self):
+        playerCount = self.videoGrid.count()
+        row = playerCount % 3
+        col = playerCount // 3
+        self.player = YouTubePlayer('', parent=self)
+        self.videoGrid.addWidget(self.player, row, col)
 
 
 if __name__ == '__main__':
